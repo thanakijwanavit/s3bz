@@ -2,7 +2,8 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"S3": "s3bz.ipynb"}
+index = {"S3": "s3bz.ipynb",
+         "Requests": "s3bz.ipynb"}
 
 modules = ["s3bz.py"]
 

@@ -81,17 +81,32 @@ url = S3.presign(key=key,
 print(url)
 ```
 
-    https://pybz-test.s3-accelerate.amazonaws.com/test.dict?AWSAccessKeyId=AKIAVX4Z5TKDVBQJXL2G&Signature=6rqC1shPQYrTz4qNeU0viiFEzS4%3D&Expires=1601444414
+    https://pybz-test.s3-accelerate.amazonaws.com/test.dict?AWSAccessKeyId=AKIAVX4Z5TKDVBQJXL2G&Signature=7LN4bfs%2F6CG%2FhF%2BcJiXJ9aZ1rgc%3D&Expires=1601447698
 
 
 ### testing signed link
 
 ```python
-import bz2, json
-r = requests.get(url)
-result = json.loads(bz2.decompress(r.content).decode())
-print(f'result is {result}')
+from s3bz.s3bz import Requests
+result = Requests.getContentFromUrl(url)
+# import bz2, json
+# r = requests.get(url)
+# result = json.loads(bz2.decompress(r.content).decode())
+# print(f'result is {result}')
 ```
 
-    result is {'test': 'bool'}
+
+    ---------------------------------------------------------------------------
+
+    ImportError                               Traceback (most recent call last)
+
+    <ipython-input-13-7011f26f1424> in <module>
+    ----> 1 from s3bz.s3bz import Requests
+          2 result = Requests.getContentFromUrl(url)
+          3 # import bz2, json
+          4 # r = requests.get(url)
+          5 # result = json.loads(bz2.decompress(r.content).decode())
+
+
+    ImportError: cannot import name 'Requests' from 's3bz.s3bz' (/Users/nic/pip/s3bz/s3bz/s3bz.py)
 
