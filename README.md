@@ -30,25 +30,26 @@ sampleDict = {'test': 'bool'}
 ## save object
 
 ```python
-assert S3.save(key = key, 
+result = S3.save(key = key, 
        objectToSave = sampleDict,
        bucket = bucket,
        user=USER,
        pw = PW,
-       accelerate = True), 'saving failed'
+       accelerate = True)
+print(('success', 'failed')[result])
 ```
 
-    INFO:root:using accelerate endpoint
-    INFO:root:data was saved to s3
+    failed
 
 
 ## check if an object exist
 
 ```python
-assert S3.exist('', bucket, user=USER, pw=PW, accelerate = False), 'bucket doesnt exist'
+result = S3.exist('', bucket, user=USER, pw=PW, accelerate = False)
+print(('doesnt exist', 'exist')[result])
 ```
 
-    INFO:root:using standard endpoint
+    exist
 
 
 ## load object
@@ -59,12 +60,10 @@ result = S3.load(key = key,
        user = USER,
        pw = PW,
        accelerate = True)
-assert result == sampleDict, f'wrong result {result}, should be {sampleDict}'
+print(result)
 ```
 
-    INFO:root:using accelerate endpoint
-    INFO:root:object exists, loading
-    INFO:root:using accelerate endpoint
+    {'test': 'bool'}
 
 
 ## presign download object
@@ -75,24 +74,18 @@ url = S3.presign(key=key,
               expiry = 1000,
               user=USER,
               pw=PW)
+print(url)
 ```
 
-    INFO:root:using accelerate endpoint
-    INFO:root:using accelerate endpoint
+    https://pybz-test.s3-accelerate.amazonaws.com/test.dict?AWSAccessKeyId=AKIAVX4Z5TKDVBQJXL2G&Signature=2bQJAd3INtaiZ7S21%2B7tdfv8jCA%3D&Expires=1601444222
 
 
-
-
-
-    {'test': 'bool'}
-
-
+### testing signed link
 
 ```python
 import bz2, json
 r = requests.get(url)
 result = json.loads(bz2.decompress(r.content).decode())
-assert result == sampleDict, 'not returning the correct object'
 print(f'result is {result}')
 ```
 
