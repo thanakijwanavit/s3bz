@@ -16,12 +16,16 @@
 
 First, import the s3 module
 
-## dummy data
+## import package
 
 ```python
 from importlib import reload
 from s3bz.s3bz import S3
+```
 
+### set up dummy data
+
+```python
 bucket = 'pybz-test'
 key = 'test.dict'
 sampleDict = {'test': 'bool'}
@@ -36,10 +40,10 @@ result = S3.save(key = key,
        user=USER,
        pw = PW,
        accelerate = True)
-print(('success', 'failed')[result])
+print(('failed', 'success')[result])
 ```
 
-    failed
+    success
 
 
 ## check if an object exist
@@ -77,7 +81,7 @@ url = S3.presign(key=key,
 print(url)
 ```
 
-    https://pybz-test.s3-accelerate.amazonaws.com/test.dict?AWSAccessKeyId=AKIAVX4Z5TKDVBQJXL2G&Signature=2bQJAd3INtaiZ7S21%2B7tdfv8jCA%3D&Expires=1601444222
+    https://pybz-test.s3-accelerate.amazonaws.com/test.dict?AWSAccessKeyId=AKIAVX4Z5TKDVBQJXL2G&Signature=6rqC1shPQYrTz4qNeU0viiFEzS4%3D&Expires=1601444414
 
 
 ### testing signed link
