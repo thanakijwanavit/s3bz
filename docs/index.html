@@ -233,8 +233,6 @@ INFO:root:using accelerate endpoint
               <span class="n">expiry</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
               <span class="n">user</span><span class="o">=</span><span class="n">USER</span><span class="p">,</span>
               <span class="n">pw</span><span class="o">=</span><span class="n">PW</span><span class="p">)</span>
-<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-<span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -248,52 +246,53 @@ INFO:root:using accelerate endpoint
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>INFO:root:using accelerate endpoint
-INFO:botocore.credentials:Found credentials in shared credentials file: ~/.aws/credentials
+INFO:root:using accelerate endpoint
 </pre>
 </div>
 </div>
 
 <div class="output_area">
 
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ClientError</span>                               Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-8-09797d055370&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> url = S3.presign(key=key,
-</span><span class="ansi-green-intense-fg ansi-bold">      2</span>               bucket<span class="ansi-blue-fg">=</span>bucket<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">      3</span>               expiry <span class="ansi-blue-fg">=</span> <span class="ansi-cyan-fg">1000</span><span class="ansi-blue-fg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">      4</span>               user<span class="ansi-blue-fg">=</span>USER<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">      5</span>               pw=PW)
 
-<span class="ansi-green-fg">~/pip/s3bz/s3bz/s3bz.py</span> in <span class="ansi-cyan-fg">presign</span><span class="ansi-blue-fg">(cls, key, expiry, bucket, **kwargs)</span>
-<span class="ansi-green-intense-fg ansi-bold">     59</span>   <span class="ansi-blue-fg">@</span>classmethod
-<span class="ansi-green-intense-fg ansi-bold">     60</span>   <span class="ansi-green-fg">def</span> presign<span class="ansi-blue-fg">(</span>cls<span class="ansi-blue-fg">,</span> key<span class="ansi-blue-fg">,</span> expiry <span class="ansi-blue-fg">=</span> <span class="ansi-cyan-fg">1000</span><span class="ansi-blue-fg">,</span> bucket <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">&#39;&#39;</span><span class="ansi-blue-fg">,</span><span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">---&gt; 61</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> cls<span class="ansi-blue-fg">.</span>checkIfExist<span class="ansi-blue-fg">(</span>key<span class="ansi-blue-fg">,</span>bucket<span class="ansi-blue-fg">=</span>bucket<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span> <span class="ansi-green-fg">return</span> <span class="ansi-blue-fg">&#39;object doesnt exist&#39;</span>
-<span class="ansi-green-intense-fg ansi-bold">     62</span>     s3 <span class="ansi-blue-fg">=</span> cls<span class="ansi-blue-fg">.</span>s3<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     63</span>     result = s3.generate_presigned_url(
 
-<span class="ansi-green-fg">~/pip/s3bz/s3bz/s3bz.py</span> in <span class="ansi-cyan-fg">checkIfExist</span><span class="ansi-blue-fg">(cls, key, bucket)</span>
-<span class="ansi-green-intense-fg ansi-bold">     70</span>   <span class="ansi-blue-fg">@</span>classmethod
-<span class="ansi-green-intense-fg ansi-bold">     71</span>   <span class="ansi-green-fg">def</span> checkIfExist<span class="ansi-blue-fg">(</span>cls<span class="ansi-blue-fg">,</span> key<span class="ansi-blue-fg">,</span> bucket <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">&#39;&#39;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">---&gt; 72</span><span class="ansi-red-fg">     </span>results <span class="ansi-blue-fg">=</span> cls<span class="ansi-blue-fg">.</span>s3<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>list_objects<span class="ansi-blue-fg">(</span>Bucket<span class="ansi-blue-fg">=</span>bucket <span class="ansi-blue-fg">,</span> Prefix<span class="ansi-blue-fg">=</span> key<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     73</span>     <span class="ansi-green-fg">return</span> <span class="ansi-blue-fg">&#39;Contents&#39;</span> <span class="ansi-green-fg">in</span> results
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;test&#39;: &#39;bool&#39;}</pre>
+</div>
 
-<span class="ansi-green-fg">/usr/local/Caskroom/miniconda/base/envs/python38/lib/python3.8/site-packages/botocore/client.py</span> in <span class="ansi-cyan-fg">_api_call</span><span class="ansi-blue-fg">(self, *args, **kwargs)</span>
-<span class="ansi-green-intense-fg ansi-bold">    314</span>                     &#34;%s() only accepts keyword arguments.&#34; % py_operation_name)
-<span class="ansi-green-intense-fg ansi-bold">    315</span>             <span class="ansi-red-fg"># The &#34;self&#34; in this scope is referring to the BaseClient.</span>
-<span class="ansi-green-fg">--&gt; 316</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>_make_api_call<span class="ansi-blue-fg">(</span>operation_name<span class="ansi-blue-fg">,</span> kwargs<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    317</span> 
-<span class="ansi-green-intense-fg ansi-bold">    318</span>         _api_call<span class="ansi-blue-fg">.</span>__name__ <span class="ansi-blue-fg">=</span> str<span class="ansi-blue-fg">(</span>py_operation_name<span class="ansi-blue-fg">)</span>
+</div>
 
-<span class="ansi-green-fg">/usr/local/Caskroom/miniconda/base/envs/python38/lib/python3.8/site-packages/botocore/client.py</span> in <span class="ansi-cyan-fg">_make_api_call</span><span class="ansi-blue-fg">(self, operation_name, api_params)</span>
-<span class="ansi-green-intense-fg ansi-bold">    624</span>             error_code <span class="ansi-blue-fg">=</span> parsed_response<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;Error&#34;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">{</span><span class="ansi-blue-fg">}</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;Code&#34;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    625</span>             error_class <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>exceptions<span class="ansi-blue-fg">.</span>from_code<span class="ansi-blue-fg">(</span>error_code<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">--&gt; 626</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">raise</span> error_class<span class="ansi-blue-fg">(</span>parsed_response<span class="ansi-blue-fg">,</span> operation_name<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    627</span>         <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    628</span>             <span class="ansi-green-fg">return</span> parsed_response
+</div>
+</div>
 
-<span class="ansi-red-fg">ClientError</span>: An error occurred (AccessDenied) when calling the ListObjects operation: Access Denied</pre>
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">bz2</span><span class="o">,</span> <span class="nn">json</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">bz2</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+<span class="k">assert</span> <span class="n">result</span> <span class="o">==</span> <span class="n">sampleDict</span><span class="p">,</span> <span class="s1">&#39;not returning the correct object&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;result is </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>result is {&#39;test&#39;: &#39;bool&#39;}
+</pre>
 </div>
 </div>
 
