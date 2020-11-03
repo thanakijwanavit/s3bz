@@ -41,17 +41,15 @@ class S3:
     return 'Contents' in cls.s3(**kwargs).list_objects(
         Bucket=bucket , Prefix=key )
   @classmethod
-  def load(cls, key, bucket='', **kwargs):
+  def load(cls, key, bucket='',fileName = '/tmp/tempFile.bz', **kwargs):
     if not cls.exist(key, bucket, **kwargs):
       logging.info('object doesnt exist')
       return {}
     logging.info('object exists, loading')
     s3 = cls.s3(**kwargs)
-    requestResult =  s3.get_object(
-                  Bucket = bucket,
-                  Key = key
-                )
-    allItemsByte = next(requestResult.get('Body',None))
+    s3.download_file(bucket,key, fileName )
+    with open (fileName , 'rb') as f:
+      allItemsByte = f.read()
     if not allItemsByte: raise ValueError('all data does not exist in the database')
     allItems = json.loads(bz2.decompress(allItemsByte).decode())
     return allItems
