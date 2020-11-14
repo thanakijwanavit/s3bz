@@ -18,14 +18,14 @@ First, import the s3 module
 
 ## import package
 
-```
+```python
 from importlib import reload
 from s3bz.s3bz import S3
 ```
 
 ### set up dummy data
 
-```
+```python
 bucket = 'pybz-test'
 key = 'test.dict'
 sampleDict = {'test': 'bool'}
@@ -35,7 +35,7 @@ PW = None
 
 ## save object
 
-```
+```python
 result = S3.save(key = key, 
        objectToSave = sampleDict,
        bucket = bucket,
@@ -50,7 +50,7 @@ print(('failed', 'success')[result])
 
 ## check if an object exist
 
-```
+```python
 result = S3.exist('', bucket, user=USER, pw=PW, accelerate = True)
 print(('doesnt exist', 'exist')[result])
 ```
@@ -60,7 +60,7 @@ print(('doesnt exist', 'exist')[result])
 
 ## load object
 
-```
+```python
 result = S3.load(key = key,
        bucket = bucket,
        user = USER,
@@ -69,12 +69,12 @@ result = S3.load(key = key,
 print(result[0])
 ```
 
-    {'ib_prcode': '10932', 'ib_brcode': '1003', 'ib_cf_qty': '473', 'new_ib_vs_stock_cv': '391'}
+    {'ib_prcode': '58813', 'ib_brcode': '1029', 'ib_cf_qty': '314', 'new_ib_vs_stock_cv': '273'}
 
 
 ## presign download object
 
-```
+```python
 url = S3.presign(key=key,
               bucket=bucket,
               expiry = 1000,
@@ -83,12 +83,12 @@ url = S3.presign(key=key,
 print(url)
 ```
 
-    https://pybz-test.s3-accelerate.amazonaws.com/test.dict?AWSAccessKeyId=AKIAVX4Z5TKDVNE5QZPQ&Signature=6PfnHRYWc9xyk4oshrSECL5Eeyw%3D&Expires=1604392828
+    https://pybz-test.s3-accelerate.amazonaws.com/test.dict?AWSAccessKeyId=AKIAVX4Z5TKDVNE5QZPQ&Signature=bv5NIDX5QCyTYO8X%2Buoy%2FxogDBk%3D&Expires=1605358067
 
 
-### testing signed link
+### download using signed link
 
-```
+```python
 from s3bz.s3bz import Requests
 result = Requests.getContentFromUrl(url)
 ```
@@ -97,7 +97,7 @@ result = Requests.getContentFromUrl(url)
 
 ### save
 
-```
+```python
 inputPath = '/tmp/tmpFile.txt'
 key = 'tmpFile'
 downloadPath = '/tmp/downloadTmpFile.txt'
@@ -105,20 +105,45 @@ with open(inputPath , 'w')as f:
   f.write('hello world')
 ```
 
-```
+```python
 S3.saveFile(key =key ,path = inputPath,bucket = bucket)
+##test
+S3.exist(key,bucket)
 ```
+
+
+
+
+    True
+
+
 
 ### load
 
-```
+```python
 S3.loadFile(key= key , path = downloadPath, bucket = bucket)
 ```
 
-```
+```python
+##test
 with open(downloadPath, 'r') as f:
   print(f.read())
 ```
 
     hello world
+
+
+### delete
+
+```python
+result = S3.deleteFile(key, bucket)
+## test
+S3.exist(key,bucket)
+```
+
+
+
+
+    False
+
 

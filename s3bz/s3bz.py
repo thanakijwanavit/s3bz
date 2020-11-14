@@ -25,6 +25,24 @@ class S3:
       )
     return s3
   @classmethod
+  def saveFile(cls, key, path, bucket = '', **kwargs):
+    '''save a file to s3'''
+    s3 = cls.s3(**kwargs)
+    result = s3.upload_file(path, bucket, key)
+    return result
+  @classmethod
+  def loadFile(cls, key, path, bucket = '', **kwargs):
+    '''load file from s3'''
+    s3 = cls.s3(**kwargs)
+    result = s3.download_file(bucket,key, path )
+    return result
+  @classmethod
+  def deleteFile(cls, key, bucket, **kwargs):
+    s3 = cls.s3(**kwargs)
+    result = s3.delete_object(Bucket=bucket, Key=key)
+    return result
+
+  @classmethod
   def save(cls,  key, objectToSave, bucket = '',**kwargs):
     '''
     save an object to s3
@@ -80,3 +98,5 @@ class Requests:
       decompressedContent = bz2.decompress(content)
       contentDict = json.loads(decompressedContent)
       return contentDict
+
+# Cell
