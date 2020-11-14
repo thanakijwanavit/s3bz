@@ -18,22 +18,24 @@ First, import the s3 module
 
 ## import package
 
-```python
+```
 from importlib import reload
 from s3bz.s3bz import S3
 ```
 
 ### set up dummy data
 
-```python
+```
 bucket = 'pybz-test'
 key = 'test.dict'
 sampleDict = {'test': 'bool'}
+USER = None
+PW = None
 ```
 
 ## save object
 
-```python
+```
 result = S3.save(key = key, 
        objectToSave = sampleDict,
        bucket = bucket,
@@ -48,8 +50,8 @@ print(('failed', 'success')[result])
 
 ## check if an object exist
 
-```python
-result = S3.exist('', bucket, user=USER, pw=PW, accelerate = False)
+```
+result = S3.exist('', bucket, user=USER, pw=PW, accelerate = True)
 print(('doesnt exist', 'exist')[result])
 ```
 
@@ -58,21 +60,21 @@ print(('doesnt exist', 'exist')[result])
 
 ## load object
 
-```python
+```
 result = S3.load(key = key,
        bucket = bucket,
        user = USER,
        pw = PW,
        accelerate = True)
-print(result)
+print(result[0])
 ```
 
-    {'test': 'bool'}
+    {'ib_prcode': '10932', 'ib_brcode': '1003', 'ib_cf_qty': '473', 'new_ib_vs_stock_cv': '391'}
 
 
 ## presign download object
 
-```python
+```
 url = S3.presign(key=key,
               bucket=bucket,
               expiry = 1000,
@@ -81,32 +83,42 @@ url = S3.presign(key=key,
 print(url)
 ```
 
-    https://pybz-test.s3-accelerate.amazonaws.com/test.dict?AWSAccessKeyId=AKIAVX4Z5TKDVBQJXL2G&Signature=7LN4bfs%2F6CG%2FhF%2BcJiXJ9aZ1rgc%3D&Expires=1601447698
+    https://pybz-test.s3-accelerate.amazonaws.com/test.dict?AWSAccessKeyId=AKIAVX4Z5TKDVNE5QZPQ&Signature=6PfnHRYWc9xyk4oshrSECL5Eeyw%3D&Expires=1604392828
 
 
 ### testing signed link
 
-```python
+```
 from s3bz.s3bz import Requests
 result = Requests.getContentFromUrl(url)
-# import bz2, json
-# r = requests.get(url)
-# result = json.loads(bz2.decompress(r.content).decode())
-# print(f'result is {result}')
 ```
 
+## File operations
 
-    ---------------------------------------------------------------------------
+### save
 
-    ImportError                               Traceback (most recent call last)
+```
+inputPath = '/tmp/tmpFile.txt'
+key = 'tmpFile'
+downloadPath = '/tmp/downloadTmpFile.txt'
+with open(inputPath , 'w')as f:
+  f.write('hello world')
+```
 
-    <ipython-input-13-7011f26f1424> in <module>
-    ----> 1 from s3bz.s3bz import Requests
-          2 result = Requests.getContentFromUrl(url)
-          3 # import bz2, json
-          4 # r = requests.get(url)
-          5 # result = json.loads(bz2.decompress(r.content).decode())
+```
+S3.saveFile(key =key ,path = inputPath,bucket = bucket)
+```
 
+### load
 
-    ImportError: cannot import name 'Requests' from 's3bz.s3bz' (/Users/nic/pip/s3bz/s3bz/s3bz.py)
+```
+S3.loadFile(key= key , path = downloadPath, bucket = bucket)
+```
+
+```
+with open(downloadPath, 'r') as f:
+  print(f.read())
+```
+
+    hello world
 
