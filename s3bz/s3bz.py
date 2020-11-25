@@ -4,6 +4,7 @@ __all__ = ['S3', 'Requests']
 
 # Cell
 from botocore.config import Config
+from nicHelper.wrappers import add_method
 import bz2, json, boto3, logging, requests
 
 # Cell
@@ -82,6 +83,15 @@ class S3:
                   'Key': key},
         ExpiresIn=expiry)
     return result
+  @classmethod
+  def loadDataFrame(cls, bucket, key,path='/tmp/tmpfile.csv',**kwargs):
+    import pandas as pd
+    cls.loadFile(key=key, path=path,bucket=bucket, **kwargs)
+    return pd.read_csv(path)
+  @classmethod
+  def saveDataFrame(cls,bucket,key,df,path='/tmp/tmpfile.csv', **kwargs):
+    df.to_csv(path)
+    return cls.saveFile(key,path,bucket=bucket)
 
 # Cell
 class Requests:
@@ -98,5 +108,3 @@ class Requests:
       decompressedContent = bz2.decompress(content)
       contentDict = json.loads(decompressedContent)
       return contentDict
-
-# Cell

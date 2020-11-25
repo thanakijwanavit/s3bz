@@ -18,24 +18,16 @@ First, import the s3 module
 
 ## import package
 
-```python
+```
 from importlib import reload
 from s3bz.s3bz import S3
 ```
 
 ### set up dummy data
 
-```python
-bucket = 'pybz-test'
-key = 'test.dict'
-sampleDict = {'test': 'bool'}
-USER = None
-PW = None
+## save object using bz2 compression
+
 ```
-
-## save object
-
-```python
 result = S3.save(key = key, 
        objectToSave = sampleDict,
        bucket = bucket,
@@ -50,7 +42,7 @@ print(('failed', 'success')[result])
 
 ## check if an object exist
 
-```python
+```
 result = S3.exist('', bucket, user=USER, pw=PW, accelerate = True)
 print(('doesnt exist', 'exist')[result])
 ```
@@ -58,9 +50,9 @@ print(('doesnt exist', 'exist')[result])
     exist
 
 
-## load object
+## load object with bz2 compression
 
-```python
+```
 result = S3.load(key = key,
        bucket = bucket,
        user = USER,
@@ -74,7 +66,7 @@ print(result[0])
 
 ## presign download object
 
-```python
+```
 url = S3.presign(key=key,
               bucket=bucket,
               expiry = 1000,
@@ -88,16 +80,16 @@ print(url)
 
 ### download using signed link
 
-```python
+```
 from s3bz.s3bz import Requests
 result = Requests.getContentFromUrl(url)
 ```
 
 ## File operations
 
-### save
+### save without compression
 
-```python
+```
 inputPath = '/tmp/tmpFile.txt'
 key = 'tmpFile'
 downloadPath = '/tmp/downloadTmpFile.txt'
@@ -105,7 +97,7 @@ with open(inputPath , 'w')as f:
   f.write('hello world')
 ```
 
-```python
+```
 S3.saveFile(key =key ,path = inputPath,bucket = bucket)
 ##test
 S3.exist(key,bucket)
@@ -118,13 +110,13 @@ S3.exist(key,bucket)
 
 
 
-### load
+### load without compression
 
-```python
+```
 S3.loadFile(key= key , path = downloadPath, bucket = bucket)
 ```
 
-```python
+```
 ##test
 with open(downloadPath, 'r') as f:
   print(f.read())
@@ -135,7 +127,7 @@ with open(downloadPath, 'r') as f:
 
 ### delete
 
-```python
+```
 result = S3.deleteFile(key, bucket)
 ## test
 S3.exist(key,bucket)
@@ -146,4 +138,28 @@ S3.exist(key,bucket)
 
     False
 
+
+
+## save and load pandas dataframe
+
+```
+import pandas as pd
+df = pd.DataFrame({'test':[1,2,3,4,5],'test2':[2,3,4,5,6]})
+S3.saveDataFrame(bucket,key,df)
+S3.loadDataFrame(bucket,key)
+```
+
+
+    ---------------------------------------------------------------------------
+
+    AttributeError                            Traceback (most recent call last)
+
+    <ipython-input-38-293a2ab02dd8> in <module>
+          1 import pandas as pd
+          2 df = pd.DataFrame({'test':[1,2,3,4,5],'test2':[2,3,4,5,6]})
+    ----> 3 S3.saveDataFrame(bucket,key,df)
+          4 S3.loadDataFrame(bucket,key)
+
+
+    AttributeError: type object 'S3' has no attribute 'saveDataFrame'
 
