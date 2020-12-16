@@ -25,7 +25,9 @@ from s3bz.s3bz import S3
 
 ### set up dummy data
 
-## save object using bz2 compression
+## BZ2 compression
+
+### save object using bz2 compression
 
 ```python
 result = S3.save(key = key, 
@@ -40,17 +42,7 @@ print(('failed', 'success')[result])
     success
 
 
-## check if an object exist
-
-```python
-result = S3.exist('', bucket, user=USER, pw=PW, accelerate = True)
-print(('doesnt exist', 'exist')[result])
-```
-
-    exist
-
-
-## load object with bz2 compression
+### load object with bz2 compression
 
 ```python
 result = S3.load(key = key,
@@ -62,6 +54,46 @@ print(result[0])
 ```
 
     {'ib_prcode': '87509', 'ib_brcode': '1017', 'ib_cf_qty': '890', 'new_ib_vs_stock_cv': '99'}
+
+
+## other compressions
+Zl : zlib compression with json string encoding
+pklzl : zlib compression with pickle encoding
+
+```python
+print(bucket)
+%time S3.saveZl(key,sampleDict,bucket)
+%time S3.loadZl(key,bucket)
+%time S3.savePklZl(key,sampleDict,bucket)
+%time S3.loadPklZl(key,bucket)
+```
+
+
+    ---------------------------------------------------------------------------
+
+    NameError                                 Traceback (most recent call last)
+
+    <ipython-input-2-cb49dfc79321> in <module>
+    ----> 1 print(bucket)
+          2 get_ipython().run_line_magic('time', 'S3.saveZl(key,sampleDict,bucket)')
+          3 get_ipython().run_line_magic('time', 'S3.loadZl(key,bucket)')
+          4 get_ipython().run_line_magic('time', 'S3.savePklZl(key,sampleDict,bucket)')
+          5 get_ipython().run_line_magic('time', 'S3.loadPklZl(key,bucket)')
+
+
+    NameError: name 'bucket' is not defined
+
+
+## Bring your own compressor and encoder
+
+## check if an object exist
+
+```python
+result = S3.exist('', bucket, user=USER, pw=PW, accelerate = True)
+print(('doesnt exist', 'exist')[result])
+```
+
+    exist
 
 
 ## presign download object

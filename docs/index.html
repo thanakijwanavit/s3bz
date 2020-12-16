@@ -95,7 +95,13 @@ nb_path: "index.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="save-object-using-bz2-compression">save object using bz2 compression<a class="anchor-link" href="#save-object-using-bz2-compression"> </a></h2>
+<h2 id="BZ2-compression">BZ2 compression<a class="anchor-link" href="#BZ2-compression"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="save-object-using-bz2-compression">save object using bz2 compression<a class="anchor-link" href="#save-object-using-bz2-compression"> </a></h3>
 </div>
 </div>
 </div>
@@ -138,45 +144,7 @@ nb_path: "index.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="check-if-an-object-exist">check if an object exist<a class="anchor-link" href="#check-if-an-object-exist"> </a></h2>
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">S3</span><span class="o">.</span><span class="n">exist</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">USER</span><span class="p">,</span> <span class="n">pw</span><span class="o">=</span><span class="n">PW</span><span class="p">,</span> <span class="n">accelerate</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">((</span><span class="s1">&#39;doesnt exist&#39;</span><span class="p">,</span> <span class="s1">&#39;exist&#39;</span><span class="p">)[</span><span class="n">result</span><span class="p">])</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>exist
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="load-object-with-bz2-compression">load object with bz2 compression<a class="anchor-link" href="#load-object-with-bz2-compression"> </a></h2>
+<h3 id="load-object-with-bz2-compression">load object with bz2 compression<a class="anchor-link" href="#load-object-with-bz2-compression"> </a></h3>
 </div>
 </div>
 </div>
@@ -206,6 +174,102 @@ nb_path: "index.ipynb"
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>{&#39;ib_prcode&#39;: &#39;87509&#39;, &#39;ib_brcode&#39;: &#39;1017&#39;, &#39;ib_cf_qty&#39;: &#39;890&#39;, &#39;new_ib_vs_stock_cv&#39;: &#39;99&#39;}
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="other-compressions">other compressions<a class="anchor-link" href="#other-compressions"> </a></h2><p>Zl : zlib compression with json string encoding
+pklzl : zlib compression with pickle encoding</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">bucket</span><span class="p">)</span>
+<span class="o">%</span><span class="k">time</span> S3.saveZl(key,sampleDict,bucket)
+<span class="o">%</span><span class="k">time</span> S3.loadZl(key,bucket)
+<span class="o">%</span><span class="k">time</span> S3.savePklZl(key,sampleDict,bucket)
+<span class="o">%</span><span class="k">time</span> S3.loadPklZl(key,bucket)
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-2-cb49dfc79321&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>print<span class="ansi-blue-fg">(</span>bucket<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span> get_ipython<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>run_line_magic<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;time&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;S3.saveZl(key,sampleDict,bucket)&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span> get_ipython<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>run_line_magic<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;time&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;S3.loadZl(key,bucket)&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span> get_ipython<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>run_line_magic<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;time&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;S3.savePklZl(key,sampleDict,bucket)&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span> get_ipython<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>run_line_magic<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;time&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;S3.loadPklZl(key,bucket)&#39;</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;bucket&#39; is not defined</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Bring-your-own-compressor-and-encoder">Bring your own compressor and encoder<a class="anchor-link" href="#Bring-your-own-compressor-and-encoder"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="check-if-an-object-exist">check if an object exist<a class="anchor-link" href="#check-if-an-object-exist"> </a></h2>
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">S3</span><span class="o">.</span><span class="n">exist</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">USER</span><span class="p">,</span> <span class="n">pw</span><span class="o">=</span><span class="n">PW</span><span class="p">,</span> <span class="n">accelerate</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">((</span><span class="s1">&#39;doesnt exist&#39;</span><span class="p">,</span> <span class="s1">&#39;exist&#39;</span><span class="p">)[</span><span class="n">result</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>exist
 </pre>
 </div>
 </div>
