@@ -53,7 +53,7 @@ result = S3.load(key = key,
 print(result[0])
 ```
 
-    {'ib_prcode': '87509', 'ib_brcode': '1017', 'ib_cf_qty': '890', 'new_ib_vs_stock_cv': '99'}
+    {'ib_prcode': '75233', 'ib_brcode': '1004', 'ib_cf_qty': '155', 'new_ib_vs_stock_cv': '880'}
 
 
 ## other compressions
@@ -65,26 +65,39 @@ print(bucket)
 %time S3.saveZl(key,sampleDict,bucket)
 %time S3.loadZl(key,bucket)
 %time S3.savePklZl(key,sampleDict,bucket)
-%time S3.loadPklZl(key,bucket)
+%time result =S3.loadPklZl(key,bucket)
 ```
 
-
-    ---------------------------------------------------------------------------
-
-    NameError                                 Traceback (most recent call last)
-
-    <ipython-input-2-cb49dfc79321> in <module>
-    ----> 1 print(bucket)
-          2 get_ipython().run_line_magic('time', 'S3.saveZl(key,sampleDict,bucket)')
-          3 get_ipython().run_line_magic('time', 'S3.loadZl(key,bucket)')
-          4 get_ipython().run_line_magic('time', 'S3.savePklZl(key,sampleDict,bucket)')
-          5 get_ipython().run_line_magic('time', 'S3.loadPklZl(key,bucket)')
-
-
-    NameError: name 'bucket' is not defined
+    pybz-test
+    CPU times: user 22.1 ms, sys: 728 µs, total: 22.9 ms
+    Wall time: 134 ms
+    CPU times: user 42.6 ms, sys: 0 ns, total: 42.6 ms
+    Wall time: 542 ms
+    CPU times: user 19.3 ms, sys: 0 ns, total: 19.3 ms
+    Wall time: 150 ms
+    CPU times: user 41 ms, sys: 3.28 ms, total: 44.3 ms
+    Wall time: 503 ms
 
 
 ## Bring your own compressor and encoder
+
+```python
+import gzip, json
+compressor=lambda x: gzip.compress(x)
+encoder=lambda x: json.dumps(x).encode()
+decompressor=lambda x: gzip.decompress(x)
+decoder=lambda x: json.loads(x.decode())
+
+%time S3.generalSave(key, sampleDict, bucket = bucket, compressor=compressor, encoder=encoder )
+%time result = S3.generalLoad(key, bucket , decompressor=decompressor, decoder=decoder)
+assert result == sampleDict, 'not the same as sample dict'
+```
+
+    CPU times: user 30.4 ms, sys: 0 ns, total: 30.4 ms
+    Wall time: 128 ms
+    CPU times: user 44.8 ms, sys: 0 ns, total: 44.8 ms
+    Wall time: 416 ms
+
 
 ## check if an object exist
 
@@ -106,9 +119,6 @@ url = S3.presign(key=key,
               pw=PW)
 print(url)
 ```
-
-    https://pybz-test.s3-accelerate.amazonaws.com/test.dict?AWSAccessKeyId=AKIAVX4Z5TKDVNE5QZPQ&Signature=cvFQZ68uxnq2ryt6fQkvvj%2B88oQ%3D&Expires=1606301851
-
 
 ### download using signed link
 
@@ -135,13 +145,6 @@ S3.saveFile(key =key ,path = inputPath,bucket = bucket)
 S3.exist(key,bucket)
 ```
 
-
-
-
-    True
-
-
-
 ### load without compression
 
 ```python
@@ -154,9 +157,6 @@ with open(downloadPath, 'r') as f:
   print(f.read())
 ```
 
-    hello world
-
-
 ### delete
 
 ```python
@@ -164,13 +164,6 @@ result = S3.deleteFile(key, bucket)
 ## test
 S3.exist(key,bucket)
 ```
-
-
-
-
-    False
-
-
 
 ## save and load pandas dataframe
 
@@ -182,66 +175,3 @@ df = pd.DataFrame({'test':[1,2,3,4,5],'test2':[2,3,4,5,6]})
 S3.saveDataFrame(bucket,key,df)
 S3.loadDataFrame(bucket,key)
 ```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Unnamed: 0</th>
-      <th>test</th>
-      <th>test2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0</td>
-      <td>1</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>1</td>
-      <td>2</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2</td>
-      <td>3</td>
-      <td>4</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>3</td>
-      <td>4</td>
-      <td>5</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>4</td>
-      <td>5</td>
-      <td>6</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-

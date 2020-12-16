@@ -173,7 +173,7 @@ nb_path: "index.ipynb"
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>{&#39;ib_prcode&#39;: &#39;87509&#39;, &#39;ib_brcode&#39;: &#39;1017&#39;, &#39;ib_cf_qty&#39;: &#39;890&#39;, &#39;new_ib_vs_stock_cv&#39;: &#39;99&#39;}
+<pre>{&#39;ib_prcode&#39;: &#39;75233&#39;, &#39;ib_brcode&#39;: &#39;1004&#39;, &#39;ib_cf_qty&#39;: &#39;155&#39;, &#39;new_ib_vs_stock_cv&#39;: &#39;880&#39;}
 </pre>
 </div>
 </div>
@@ -203,7 +203,7 @@ pklzl : zlib compression with pickle encoding</p>
 <span class="o">%</span><span class="k">time</span> S3.saveZl(key,sampleDict,bucket)
 <span class="o">%</span><span class="k">time</span> S3.loadZl(key,bucket)
 <span class="o">%</span><span class="k">time</span> S3.savePklZl(key,sampleDict,bucket)
-<span class="o">%</span><span class="k">time</span> S3.loadPklZl(key,bucket)
+<span class="o">%</span><span class="k">time</span> result =S3.loadPklZl(key,bucket)
 </pre></div>
 
     </div>
@@ -215,18 +215,17 @@ pklzl : zlib compression with pickle encoding</p>
 
 <div class="output_area">
 
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-2-cb49dfc79321&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>print<span class="ansi-blue-fg">(</span>bucket<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      2</span> get_ipython<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>run_line_magic<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;time&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;S3.saveZl(key,sampleDict,bucket)&#39;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      3</span> get_ipython<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>run_line_magic<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;time&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;S3.loadZl(key,bucket)&#39;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      4</span> get_ipython<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>run_line_magic<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;time&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;S3.savePklZl(key,sampleDict,bucket)&#39;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      5</span> get_ipython<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>run_line_magic<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;time&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;S3.loadPklZl(key,bucket)&#39;</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-red-fg">NameError</span>: name &#39;bucket&#39; is not defined</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>pybz-test
+CPU times: user 22.1 ms, sys: 728 µs, total: 22.9 ms
+Wall time: 134 ms
+CPU times: user 42.6 ms, sys: 0 ns, total: 42.6 ms
+Wall time: 542 ms
+CPU times: user 19.3 ms, sys: 0 ns, total: 19.3 ms
+Wall time: 150 ms
+CPU times: user 41 ms, sys: 3.28 ms, total: 44.3 ms
+Wall time: 503 ms
+</pre>
 </div>
 </div>
 
@@ -242,6 +241,48 @@ pklzl : zlib compression with pickle encoding</p>
 </div>
 </div>
 </div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">gzip</span><span class="o">,</span> <span class="nn">json</span>
+<span class="n">compressor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">gzip</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">encoder</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
+<span class="n">decompressor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">gzip</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">decoder</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+
+<span class="o">%</span><span class="k">time</span> S3.generalSave(key, sampleDict, bucket = bucket, compressor=compressor, encoder=encoder )
+<span class="o">%</span><span class="k">time</span> result = S3.generalLoad(key, bucket , decompressor=decompressor, decoder=decoder)
+<span class="k">assert</span> <span class="n">result</span> <span class="o">==</span> <span class="n">sampleDict</span><span class="p">,</span> <span class="s1">&#39;not the same as sample dict&#39;</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>CPU times: user 30.4 ms, sys: 0 ns, total: 30.4 ms
+Wall time: 128 ms
+CPU times: user 44.8 ms, sys: 0 ns, total: 44.8 ms
+Wall time: 416 ms
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="check-if-an-object-exist">check if an object exist<a class="anchor-link" href="#check-if-an-object-exist"> </a></h2>
@@ -302,20 +343,6 @@ pklzl : zlib compression with pickle encoding</p>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>https://pybz-test.s3-accelerate.amazonaws.com/test.dict?AWSAccessKeyId=AKIAVX4Z5TKDVNE5QZPQ&amp;Signature=cvFQZ68uxnq2ryt6fQkvvj%2B88oQ%3D&amp;Expires=1606301851
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -395,22 +422,6 @@ pklzl : zlib compression with pickle encoding</p>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>True</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
     {% endraw %}
 
@@ -452,20 +463,6 @@ pklzl : zlib compression with pickle encoding</p>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>hello world
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
     {% endraw %}
 
@@ -488,22 +485,6 @@ pklzl : zlib compression with pickle encoding</p>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>False</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -531,77 +512,6 @@ pklzl : zlib compression with pickle encoding</p>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Unnamed: 0</th>
-      <th>test</th>
-      <th>test2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0</td>
-      <td>1</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>1</td>
-      <td>2</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2</td>
-      <td>3</td>
-      <td>4</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>3</td>
-      <td>4</td>
-      <td>5</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>4</td>
-      <td>5</td>
-      <td>6</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
 </div>
 </div>
 
