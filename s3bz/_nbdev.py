@@ -9,7 +9,11 @@ index = {"S3": "s3bz.ipynb",
          "loadZl": "s3bz.ipynb",
          "savePklZl": "s3bz.ipynb",
          "loadPklZl": "s3bz.ipynb",
-         "Requests": "s3bz.ipynb"}
+         "saveRaw": "s3bz.ipynb",
+         "loadRaw": "s3bz.ipynb",
+         "Requests": "s3bz.ipynb",
+         "createBucket": "s3bz.ipynb",
+         "deleteBucket": "s3bz.ipynb"}
 
 modules = ["s3bz.py"]
 
