@@ -5,6 +5,7 @@ __all__ = ['S3', 'generalSave', 'generalLoad', 'saveZl', 'loadZl', 'savePklZl', 
 # Cell
 from botocore.config import Config
 from nicHelper.wrappers import add_method, add_class_method, add_static_method
+from botocore.errorfactory import ClientError
 import bz2, json, boto3, logging, requests, zlib, pickle
 
 # Cell
@@ -57,8 +58,14 @@ class S3:
     else: return True
   @classmethod
   def exist(cls, key, bucket, **kwargs):
-    return 'Contents' in cls.s3(**kwargs).list_objects(
-        Bucket=bucket , Prefix=key )
+    s3 = cls.s3(**kwargs)
+    try:
+        s3.head_object(Bucket=bucket, Key=key)
+        return True
+    except ClientError:
+        # Not found
+        return False
+
   @classmethod
   def load(cls, key, bucket='',fileName = '/tmp/tempFile.bz', **kwargs):
     if not cls.exist(key, bucket, **kwargs):
@@ -74,8 +81,9 @@ class S3:
     return allItems
 
   @classmethod
-  def presign(cls, key, expiry = 1000, bucket = '',**kwargs):
-    if not cls.exist(key,bucket=bucket,**kwargs): return 'object doesnt exist'
+  def presign(cls, key, expiry = 1000, bucket = '', checkExist = True,**kwargs):
+    if checkExist:
+      if not cls.exist(key,bucket=bucket,**kwargs): return 'object doesnt exist'
     s3 = cls.s3(**kwargs)
     result = s3.generate_presigned_url(
         'get_object',
