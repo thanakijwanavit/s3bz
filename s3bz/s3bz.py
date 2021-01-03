@@ -71,12 +71,8 @@ class S3:
   @classmethod
   def exist(cls, key, bucket, **kwargs):
     s3 = cls.s3(**kwargs)
-    try:
-        s3.head_object(Bucket=bucket, Key=key)
-        return True
-    except ClientError:
-        # Not found
-        return False
+    res = s3.list_objects_v2(Bucket=bucket, Prefix=key, MaxKeys=1)
+    return 'Contents' in res
 
   @classmethod
   def load(cls, key, bucket='',fileName = '/tmp/tempFile.bz', useUrl = False, **kwargs):
@@ -119,7 +115,7 @@ class S3:
 
 # Cell
 @add_class_method(S3)
-def generalSave(cls, key, objectToSave, bucket = '',
+def generalSave(cls, key, objectToSave:dict, bucket = '',
                 compressor=lambda x: zlib.compress(x),
                 encoder=lambda x: json.dumps(x).encode() ,**kwargs):
   '''save a file to s3'''
@@ -155,7 +151,7 @@ def generalLoad(cls, key, bucket = '',fileName = '/tmp/tempFile.bz',
   return allItems
 
 @add_class_method(S3)
-def saveZl(cls, key, objectToSave, bucket = '', **kwargs):
+def saveZl(cls, key, objectToSave:dict, bucket = '', **kwargs):
   '''save a file to s3'''
   return cls.generalSave(key,objectToSave, bucket )
 @add_class_method(S3)
@@ -164,7 +160,7 @@ def loadZl(cls, key, bucket = '',fileName = '/tmp/tempFile.bz', **kwargs):
   return cls.generalLoad(key,bucket,fileName , **kwargs)
 
 @add_class_method(S3)
-def savePklZl(cls, key, objectToSave, bucket = '', **kwargs):
+def savePklZl(cls, key, objectToSave:dict, bucket = '', **kwargs):
   '''save a file to s3'''
   return cls.generalSave(key,objectToSave, bucket,
                          compressor=lambda x: zlib.compress(x),
