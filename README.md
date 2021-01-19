@@ -20,7 +20,7 @@ First, import the s3 module
 
 ## import package
 
-```python
+```
 from importlib import reload
 from s3bz.s3bz import S3
 ```
@@ -31,7 +31,7 @@ from s3bz.s3bz import S3
 
 ### save object using bz2 compression
 
-```python
+```
 result = S3.save(key = key, 
        objectToSave = sampleDict,
        bucket = bucket,
@@ -46,7 +46,7 @@ print(('failed', 'success')[result])
 
 ### load object with bz2 compression
 
-```python
+```
 result = S3.load(key = key,
        bucket = bucket,
        user = USER,
@@ -62,7 +62,7 @@ print(result[0])
 Zl : zlib compression with json string encoding
 pklzl : zlib compression with pickle encoding
 
-```python
+```
 print(bucket)
 %time S3.saveZl(key,sampleDict,bucket)
 %time S3.loadZl(key,bucket)
@@ -83,7 +83,7 @@ print(bucket)
 
 ## Bring your own compressor and encoder
 
-```python
+```
 import gzip, json
 compressor=lambda x: gzip.compress(x)
 encoder=lambda x: json.dumps(x).encode()
@@ -103,7 +103,7 @@ assert result == sampleDict, 'not the same as sample dict'
 
 ## check if an object exist
 
-```python
+```
 result = S3.exist('', bucket, user=USER, pw=PW, accelerate = True)
 print(('doesnt exist', 'exist')[result])
 ```
@@ -113,7 +113,7 @@ print(('doesnt exist', 'exist')[result])
 
 ## presign download object
 
-```python
+```
 url = S3.presign(key=key,
               bucket=bucket,
               expiry = 1000,
@@ -124,7 +124,7 @@ print(url)
 
 ### download using signed link
 
-```python
+```
 from s3bz.s3bz import Requests
 result = Requests.getContentFromUrl(url)
 ```
@@ -133,7 +133,7 @@ result = Requests.getContentFromUrl(url)
 
 ### save without compression
 
-```python
+```
 inputPath = '/tmp/tmpFile.txt'
 key = 'tmpFile'
 downloadPath = '/tmp/downloadTmpFile.txt'
@@ -141,7 +141,7 @@ with open(inputPath , 'w')as f:
   f.write('hello world')
 ```
 
-```python
+```
 S3.saveFile(key =key ,path = inputPath,bucket = bucket)
 ##test
 S3.exist(key,bucket)
@@ -149,11 +149,11 @@ S3.exist(key,bucket)
 
 ### load without compression
 
-```python
+```
 S3.loadFile(key= key , path = downloadPath, bucket = bucket)
 ```
 
-```python
+```
 ##test
 with open(downloadPath, 'r') as f:
   print(f.read())
@@ -161,7 +161,7 @@ with open(downloadPath, 'r') as f:
 
 ### delete
 
-```python
+```
 result = S3.deleteFile(key, bucket)
 ## test
 S3.exist(key,bucket)
@@ -169,7 +169,7 @@ S3.exist(key,bucket)
 
 ## save and load pandas dataframe
 
-```python
+```
 ### please install in pandas, 
 ### this is not include in the requirements to minimize the size impact
 import pandas as pd

@@ -93,7 +93,7 @@ class S3:
     return allItems
 
   @classmethod
-  def presign(cls, key, expiry = 1000, bucket = '', checkExist = True,**kwargs):
+  def presign(cls, key, expiry = 1000, bucket = '', checkExist = False,**kwargs):
     if checkExist:
       if not cls.exist(key,bucket=bucket,**kwargs): return 'object doesnt exist'
     s3 = cls.s3(**kwargs)
@@ -103,6 +103,18 @@ class S3:
                   'Key': key},
         ExpiresIn=expiry)
     return result
+  @classmethod
+  def presignUpload(cls, bucket, key, expiry = 1000, **kwargs):
+    '''
+    # usage of the presigned url
+    with open(object_name, 'rb') as f:
+        files = {'file': (object_name, f)}
+        http_response = requests.post(response['url'], data=response['fields'], files=files)
+    # If successful, returns HTTP status code 204
+    '''
+    s3 = cls.s3(**kwargs)
+    return s3.generate_presigned_post(bucket, key, ExpiresIn = expiry)
+
   @classmethod
   def loadDataFrame(cls, bucket, key,path='/tmp/tmpfile.csv',**kwargs):
     import pandas as pd

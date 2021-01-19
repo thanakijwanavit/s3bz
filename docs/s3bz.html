@@ -69,6 +69,71 @@ nb_path: "s3bz.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="presign-upload-example">presign upload example<a class="anchor-link" href="#presign-upload-example"> </a></h3>
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">S3</span><span class="o">.</span><span class="n">presignUpload</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+<span class="n">url</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span>
+<span class="n">fields</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="s1">&#39;fields&#39;</span><span class="p">]</span>
+<span class="n">bio</span> <span class="o">=</span> <span class="n">BytesIO</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;hello1&#39;</span><span class="p">)</span>
+<span class="n">files</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;file&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;test1&#39;</span><span class="p">,</span> <span class="n">bio</span><span class="p">)}</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">fields</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span> <span class="n">files</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">S3</span><span class="o">.</span><span class="n">loadFile</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/tmp/test&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/tmp/test&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+  <span class="n">item</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">item</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;hello1&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Gzip-options">Gzip options<a class="anchor-link" href="#Gzip-options"> </a></h2>
 </div>
 </div>
@@ -84,7 +149,7 @@ nb_path: "s3bz.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="generalSave" class="doc_header"><code>generalSave</code><a href="https://github.com/thanakijwanavit/s3bz/tree/master/s3bz/s3bz.py#L117" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>generalSave</code>(<strong><code>key</code></strong>, <strong><code>objectToSave</code></strong>:<code>dict</code>, <strong><code>bucket</code></strong>=<em><code>''</code></em>, <strong><code>compressor</code></strong>=<em><code>&lt;lambda&gt;</code></em>, <strong><code>encoder</code></strong>=<em><code>&lt;lambda&gt;</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+<h4 id="generalSave" class="doc_header"><code>generalSave</code><a href="https://github.com/thanakijwanavit/s3bz/tree/master/s3bz/s3bz.py#L129" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>generalSave</code>(<strong><code>key</code></strong>, <strong><code>objectToSave</code></strong>:<code>dict</code>, <strong><code>bucket</code></strong>=<em><code>''</code></em>, <strong><code>compressor</code></strong>=<em><code>&lt;lambda&gt;</code></em>, <strong><code>encoder</code></strong>=<em><code>&lt;lambda&gt;</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>save a file to s3</p>
 
@@ -109,7 +174,7 @@ nb_path: "s3bz.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="generalLoad" class="doc_header"><code>generalLoad</code><a href="https://github.com/thanakijwanavit/s3bz/tree/master/s3bz/s3bz.py#L129" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>generalLoad</code>(<strong><code>key</code></strong>, <strong><code>bucket</code></strong>=<em><code>''</code></em>, <strong><code>fileName</code></strong>=<em><code>'/tmp/tempFile.bz'</code></em>, <strong><code>decompressor</code></strong>=<em><code>&lt;lambda&gt;</code></em>, <strong><code>decoder</code></strong>=<em><code>&lt;lambda&gt;</code></em>, <strong><code>useUrl</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+<h4 id="generalLoad" class="doc_header"><code>generalLoad</code><a href="https://github.com/thanakijwanavit/s3bz/tree/master/s3bz/s3bz.py#L141" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>generalLoad</code>(<strong><code>key</code></strong>, <strong><code>bucket</code></strong>=<em><code>''</code></em>, <strong><code>fileName</code></strong>=<em><code>'/tmp/tempFile.bz'</code></em>, <strong><code>decompressor</code></strong>=<em><code>&lt;lambda&gt;</code></em>, <strong><code>decoder</code></strong>=<em><code>&lt;lambda&gt;</code></em>, <strong><code>useUrl</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>load file from s3</p>
 
@@ -134,7 +199,7 @@ nb_path: "s3bz.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="saveZl" class="doc_header"><code>saveZl</code><a href="https://github.com/thanakijwanavit/s3bz/tree/master/s3bz/s3bz.py#L153" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>saveZl</code>(<strong><code>key</code></strong>, <strong><code>objectToSave</code></strong>:<code>dict</code>, <strong><code>bucket</code></strong>=<em><code>''</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+<h4 id="saveZl" class="doc_header"><code>saveZl</code><a href="https://github.com/thanakijwanavit/s3bz/tree/master/s3bz/s3bz.py#L165" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>saveZl</code>(<strong><code>key</code></strong>, <strong><code>objectToSave</code></strong>:<code>dict</code>, <strong><code>bucket</code></strong>=<em><code>''</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>save a file to s3</p>
 
@@ -159,7 +224,7 @@ nb_path: "s3bz.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="loadZl" class="doc_header"><code>loadZl</code><a href="https://github.com/thanakijwanavit/s3bz/tree/master/s3bz/s3bz.py#L157" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>loadZl</code>(<strong><code>key</code></strong>, <strong><code>bucket</code></strong>=<em><code>''</code></em>, <strong><code>fileName</code></strong>=<em><code>'/tmp/tempFile.bz'</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+<h4 id="loadZl" class="doc_header"><code>loadZl</code><a href="https://github.com/thanakijwanavit/s3bz/tree/master/s3bz/s3bz.py#L169" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>loadZl</code>(<strong><code>key</code></strong>, <strong><code>bucket</code></strong>=<em><code>''</code></em>, <strong><code>fileName</code></strong>=<em><code>'/tmp/tempFile.bz'</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>load file from s3</p>
 
@@ -184,7 +249,7 @@ nb_path: "s3bz.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="savePklZl" class="doc_header"><code>savePklZl</code><a href="https://github.com/thanakijwanavit/s3bz/tree/master/s3bz/s3bz.py#L162" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>savePklZl</code>(<strong><code>key</code></strong>, <strong><code>objectToSave</code></strong>:<code>dict</code>, <strong><code>bucket</code></strong>=<em><code>''</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+<h4 id="savePklZl" class="doc_header"><code>savePklZl</code><a href="https://github.com/thanakijwanavit/s3bz/tree/master/s3bz/s3bz.py#L174" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>savePklZl</code>(<strong><code>key</code></strong>, <strong><code>objectToSave</code></strong>:<code>dict</code>, <strong><code>bucket</code></strong>=<em><code>''</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>save a file to s3</p>
 
@@ -209,7 +274,7 @@ nb_path: "s3bz.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="loadPklZl" class="doc_header"><code>loadPklZl</code><a href="https://github.com/thanakijwanavit/s3bz/tree/master/s3bz/s3bz.py#L170" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>loadPklZl</code>(<strong><code>key</code></strong>, <strong><code>bucket</code></strong>=<em><code>''</code></em>, <strong><code>fileName</code></strong>=<em><code>'/tmp/tempFile.bz'</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+<h4 id="loadPklZl" class="doc_header"><code>loadPklZl</code><a href="https://github.com/thanakijwanavit/s3bz/tree/master/s3bz/s3bz.py#L182" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>loadPklZl</code>(<strong><code>key</code></strong>, <strong><code>bucket</code></strong>=<em><code>''</code></em>, <strong><code>fileName</code></strong>=<em><code>'/tmp/tempFile.bz'</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>load file from s3</p>
 
@@ -234,7 +299,7 @@ nb_path: "s3bz.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="saveRaw" class="doc_header"><code>saveRaw</code><a href="https://github.com/thanakijwanavit/s3bz/tree/master/s3bz/s3bz.py#L177" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>saveRaw</code>(<strong><code>key</code></strong>, <strong><code>objectToSave</code></strong>, <strong><code>bucket</code></strong>=<em><code>''</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+<h4 id="saveRaw" class="doc_header"><code>saveRaw</code><a href="https://github.com/thanakijwanavit/s3bz/tree/master/s3bz/s3bz.py#L189" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>saveRaw</code>(<strong><code>key</code></strong>, <strong><code>objectToSave</code></strong>, <strong><code>bucket</code></strong>=<em><code>''</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>save a file to s3</p>
 
@@ -259,7 +324,7 @@ nb_path: "s3bz.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="loadRaw" class="doc_header"><code>loadRaw</code><a href="https://github.com/thanakijwanavit/s3bz/tree/master/s3bz/s3bz.py#L183" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>loadRaw</code>(<strong><code>key</code></strong>, <strong><code>bucket</code></strong>=<em><code>''</code></em>, <strong><code>fileName</code></strong>=<em><code>'/tmp/tempFile.bz'</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+<h4 id="loadRaw" class="doc_header"><code>loadRaw</code><a href="https://github.com/thanakijwanavit/s3bz/tree/master/s3bz/s3bz.py#L195" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>loadRaw</code>(<strong><code>key</code></strong>, <strong><code>bucket</code></strong>=<em><code>''</code></em>, <strong><code>fileName</code></strong>=<em><code>'/tmp/tempFile.bz'</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>load file from s3</p>
 
@@ -313,34 +378,34 @@ nb_path: "s3bz.ipynb"
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>pybz-test
-CPU times: user 229 ms, sys: 19.6 ms, total: 249 ms
-Wall time: 560 ms
+CPU times: user 199 ms, sys: 33.1 ms, total: 232 ms
+Wall time: 397 ms
 using url
 presign success
-CPU times: user 89.9 ms, sys: 4.13 ms, total: 94 ms
-Wall time: 143 ms
-CPU times: user 85.4 ms, sys: 2.84 ms, total: 88.2 ms
-Wall time: 304 ms
+CPU times: user 79.8 ms, sys: 7.33 ms, total: 87.2 ms
+Wall time: 135 ms
+CPU times: user 82.7 ms, sys: 4.21 ms, total: 86.9 ms
+Wall time: 176 ms
 using url
 presign success
-CPU times: user 92.2 ms, sys: 3.9 ms, total: 96.1 ms
-Wall time: 258 ms
-CPU times: user 73.9 ms, sys: 10.4 ms, total: 84.3 ms
-Wall time: 232 ms
+CPU times: user 83.3 ms, sys: 11.6 ms, total: 94.9 ms
+Wall time: 153 ms
+CPU times: user 78.3 ms, sys: 3.1 ms, total: 81.4 ms
+Wall time: 167 ms
 using url
 presign success
-CPU times: user 41.1 ms, sys: 4.18 ms, total: 45.3 ms
-Wall time: 109 ms
-CPU times: user 47.2 ms, sys: 0 ns, total: 47.2 ms
-Wall time: 392 ms
+CPU times: user 39.1 ms, sys: 3.87 ms, total: 42.9 ms
+Wall time: 86.4 ms
+CPU times: user 40.1 ms, sys: 7.05 ms, total: 47.2 ms
+Wall time: 479 ms
 using url
 presign success
-CPU times: user 57.3 ms, sys: 524 µs, total: 57.8 ms
-Wall time: 190 ms
-CPU times: user 5.18 ms, sys: 167 µs, total: 5.35 ms
-Wall time: 5.36 ms
-CPU times: user 20.3 ms, sys: 639 µs, total: 21 ms
-Wall time: 88.4 ms
+CPU times: user 53.7 ms, sys: 142 µs, total: 53.8 ms
+Wall time: 222 ms
+CPU times: user 5.58 ms, sys: 188 µs, total: 5.77 ms
+Wall time: 5.53 ms
+CPU times: user 18.6 ms, sys: 0 ns, total: 18.6 ms
+Wall time: 71.5 ms
 </pre>
 </div>
 </div>
@@ -362,7 +427,7 @@ Wall time: 88.4 ms
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Requests" class="doc_header"><code>class</code> <code>Requests</code><a href="https://github.com/thanakijwanavit/s3bz/tree/master/s3bz/s3bz.py#L193" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Requests</code>()</p>
+<h2 id="Requests" class="doc_header"><code>class</code> <code>Requests</code><a href="https://github.com/thanakijwanavit/s3bz/tree/master/s3bz/s3bz.py#L205" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Requests</code>()</p>
 </blockquote>
 <p>for uploading and downloading contents from url</p>
 
@@ -496,11 +561,11 @@ Wall time: 88.4 ms
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>CPU times: user 29.1 ms, sys: 3.31 ms, total: 32.4 ms
-Wall time: 192 ms
-CPU times: user 4.83 ms, sys: 139 µs, total: 4.97 ms
-Wall time: 4.98 ms
-129 ms ± 5.54 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+<pre>CPU times: user 7.57 ms, sys: 0 ns, total: 7.57 ms
+Wall time: 7.34 ms
+CPU times: user 5.54 ms, sys: 0 ns, total: 5.54 ms
+Wall time: 5.3 ms
+99.4 ms ± 11.8 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
 </pre>
 </div>
 </div>
@@ -540,8 +605,8 @@ Wall time: 4.98 ms
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>CPU times: user 18.4 ms, sys: 0 ns, total: 18.4 ms
-Wall time: 55.3 ms
+<pre>CPU times: user 16.5 ms, sys: 490 µs, total: 17 ms
+Wall time: 55.6 ms
 </pre>
 </div>
 </div>
@@ -563,7 +628,7 @@ Wall time: 55.3 ms
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="createBucket" class="doc_header"><code>createBucket</code><a href="https://github.com/thanakijwanavit/s3bz/tree/master/s3bz/s3bz.py#L210" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>createBucket</code>(<strong><code>bucket</code></strong>:<code>str</code>, <strong>**<code>kwargs</code></strong>)</p>
+<h4 id="createBucket" class="doc_header"><code>createBucket</code><a href="https://github.com/thanakijwanavit/s3bz/tree/master/s3bz/s3bz.py#L222" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>createBucket</code>(<strong><code>bucket</code></strong>:<code>str</code>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -587,7 +652,7 @@ Wall time: 55.3 ms
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="deleteBucket" class="doc_header"><code>deleteBucket</code><a href="https://github.com/thanakijwanavit/s3bz/tree/master/s3bz/s3bz.py#L226" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>deleteBucket</code>(<strong><code>bucket</code></strong>:<code>str</code>, <strong>**<code>kwargs</code></strong>)</p>
+<h4 id="deleteBucket" class="doc_header"><code>deleteBucket</code><a href="https://github.com/thanakijwanavit/s3bz/tree/master/s3bz/s3bz.py#L238" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>deleteBucket</code>(<strong><code>bucket</code></strong>:<code>str</code>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 
 </div>
