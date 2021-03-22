@@ -26,6 +26,8 @@ release: pypi
 	nbdev_bump_version
 
 pypi: dist
+	bash build.sh
+	nbdev_bump_version
 	twine upload --repository pypi dist/*
 
 dist: clean
