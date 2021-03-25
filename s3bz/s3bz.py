@@ -128,6 +128,7 @@ class S3:
 # Cell
 class ExtraArgs:
   gzip = {'ContentType': 'application/json', 'ContentEncoding':'gzip'}
+  publicRead = {'ACL':'public-read'}
 
 # Cell
 @add_class_method(S3)
