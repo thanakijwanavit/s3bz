@@ -55,7 +55,7 @@ result = S3.load(key = key,
 print(result[0])
 ```
 
-    {'ib_prcode': '75233', 'ib_brcode': '1004', 'ib_cf_qty': '155', 'new_ib_vs_stock_cv': '880'}
+    {'ib_prcode': '23238', 'ib_brcode': '1015', 'ib_cf_qty': '703', 'new_ib_vs_stock_cv': '768'}
 
 
 ## other compressions
@@ -71,14 +71,14 @@ print(bucket)
 ```
 
     pybz-test
-    CPU times: user 22.1 ms, sys: 728 µs, total: 22.9 ms
-    Wall time: 134 ms
-    CPU times: user 42.6 ms, sys: 0 ns, total: 42.6 ms
-    Wall time: 542 ms
-    CPU times: user 19.3 ms, sys: 0 ns, total: 19.3 ms
-    Wall time: 150 ms
-    CPU times: user 41 ms, sys: 3.28 ms, total: 44.3 ms
-    Wall time: 503 ms
+    CPU times: user 23.9 ms, sys: 559 µs, total: 24.5 ms
+    Wall time: 155 ms
+    CPU times: user 28.3 ms, sys: 3.04 ms, total: 31.4 ms
+    Wall time: 154 ms
+    CPU times: user 21.6 ms, sys: 228 µs, total: 21.9 ms
+    Wall time: 151 ms
+    CPU times: user 31.6 ms, sys: 0 ns, total: 31.6 ms
+    Wall time: 114 ms
 
 
 ## Bring your own compressor and encoder
@@ -95,10 +95,10 @@ decoder=lambda x: json.loads(x.decode())
 assert result == sampleDict, 'not the same as sample dict'
 ```
 
-    CPU times: user 30.4 ms, sys: 0 ns, total: 30.4 ms
-    Wall time: 128 ms
-    CPU times: user 44.8 ms, sys: 0 ns, total: 44.8 ms
-    Wall time: 416 ms
+    CPU times: user 31 ms, sys: 0 ns, total: 31 ms
+    Wall time: 155 ms
+    CPU times: user 32.5 ms, sys: 51 µs, total: 32.5 ms
+    Wall time: 115 ms
 
 
 ## check if an object exist
@@ -121,6 +121,9 @@ url = S3.presign(key=key,
               pw=PW)
 print(url)
 ```
+
+    https://pybz-test.s3-accelerate.amazonaws.com/test.dict?AWSAccessKeyId=AKIAVX4Z5TKDSNNNULGB&Signature=BR8Laz3uvkNKGh%2FBZ8x7IhRE3OU%3D&Expires=1616667887
+
 
 ### download using signed link
 
@@ -147,6 +150,13 @@ S3.saveFile(key =key ,path = inputPath,bucket = bucket)
 S3.exist(key,bucket)
 ```
 
+
+
+
+    True
+
+
+
 ### load without compression
 
 ```
@@ -159,6 +169,9 @@ with open(downloadPath, 'r') as f:
   print(f.read())
 ```
 
+    hello world
+
+
 ### delete
 
 ```
@@ -166,6 +179,13 @@ result = S3.deleteFile(key, bucket)
 ## test
 S3.exist(key,bucket)
 ```
+
+
+
+
+    False
+
+
 
 ## save and load pandas dataframe
 
@@ -177,3 +197,91 @@ df = pd.DataFrame({'test':[1,2,3,4,5],'test2':[2,3,4,5,6]})
 S3.saveDataFrame(bucket,key,df)
 S3.loadDataFrame(bucket,key)
 ```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Unnamed: 0</th>
+      <th>test</th>
+      <th>test2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>3</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>4</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>5</td>
+      <td>6</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+# presign post with conditions
+
+```
+from s3bz.s3bz import ExtraArgs, S3
+```
+
+```
+bucket = 'pybz-test'
+key = 'test.dict'
+fields = {**ExtraArgs.jpeg}
+S3.presignUpload(bucket, key, fields=fields)
+```
+
+
+
+
+    {'url': 'https://pybz-test.s3-accelerate.amazonaws.com/',
+     'fields': {'Content-Type': 'image/jpeg',
+      'key': 'test.dict',
+      'AWSAccessKeyId': 'AKIAVX4Z5TKDSNNNULGB',
+      'policy': 'eyJleHBpcmF0aW9uIjogIjIwMjEtMDMtMjVUMTA6MjQ6NTJaIiwgImNvbmRpdGlvbnMiOiBbeyJidWNrZXQiOiAicHliei10ZXN0In0sIHsia2V5IjogInRlc3QuZGljdCJ9XX0=',
+      'signature': 'hwC8kIjmjNPU0KT3BE54/TUQ/7w='}}
+
+
